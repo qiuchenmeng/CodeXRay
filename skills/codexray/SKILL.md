@@ -1,6 +1,6 @@
 ---
 name: codexray
-description: "Learn reusable preferences from explicit feedback on code explanations, implementation, debugging, and review; capture feedback per user and synthesize a personalized coding prompt on request. Use for CodeXRay sessions and coding-preference synthesis, not paper-reading preferences."
+description: "Learn reusable preferences from explicit feedback on code explanations, implementation, debugging, and review; capture feedback per user and synthesize a personalized coding prompt on request. Use for CodeXRay sessions and coding-preference synthesis, not paper-reading preferences. Start with @codexray followed by your coding question."
 ---
 
 # CodeXRay

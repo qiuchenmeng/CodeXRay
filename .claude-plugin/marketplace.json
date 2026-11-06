@@ -1,0 +1,13 @@
+{
+  "name": "codexray",
+  "owner": {"name": "Qiu Chenmeng"},
+  "description": "CodeXRay coding feedback and personalization plugin.",
+  "plugins": [
+    {
+      "name": "codexray",
+      "source": "./",
+      "description": "Learn reusable coding preferences from explicit feedback on code explanations, implementation, debugging, and reviews.",
+      "keywords": ["coding", "feedback", "personalization"]
+    }
+  ]
+}

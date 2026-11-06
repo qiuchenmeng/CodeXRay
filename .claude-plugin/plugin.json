@@ -1,0 +1,9 @@
+{
+  "name": "codexray",
+  "version": "0.1.0",
+  "description": "Learn reusable coding preferences from explicit feedback on code explanations, implementation, debugging, and reviews.",
+  "author": {"name": "Qiu Chenmeng"},
+  "repository": "https://github.com/qiuchenmeng/CodeXRay",
+  "skills": "./skills/",
+  "keywords": ["coding", "feedback", "personalization"]
+}

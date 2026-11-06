@@ -1,77 +1,61 @@
 # CodeXRay
 
-CodeXRay | Turn your feedback into guidance for the next time AI writes code.
-
-CodeXRay captures your explicit feedback on code explanations, implementation, debugging, and reviews. Let useful feedback build up, so you spend less time repeating the same corrections.
+Turn your feedback into guidance for the next time AI writes code. CodeXRay captures explicit feedback on code explanations, implementation, debugging, and reviews, then synthesizes a personalized coding prompt when requested.
 
 [中文说明](Readme-CN.md)
 
-## Quick start in Codex
+## Quick start
 
-Cloning this repository into an arbitrary directory only downloads the skill. Install it into a skill directory before invoking it. Python 3 is required for the feedback storage helper.
+Requires Git, Python 3, and a Codex version with `codex plugin` support.
 
-### Install with Codex
+Run in your terminal:
 
-Send the following in a Codex chat, not in your terminal:
+```sh
+git clone https://github.com/qiuchenmeng/CodeXRay.git
+cd CodeXRay
+codex plugin marketplace add .
+codex plugin add codexray@codexray
+```
+
+The last two commands register the marketplace and install the plugin. Run them using the same Codex environment/profile as the app where you will use CodeXRay. Cloning alone does not register a plugin.
+
+Start a new Codex chat, open your code project, and send:
 
 ```text
-$skill-installer Install the skill from https://github.com/qiuchenmeng/CodeXRay. The skill path is the repository root (.), and the installed name should be codexray.
+@codexray Explain this project's code structure.
 ```
 
-Once installation completes, try it on your next turn. If it does not appear in the skill selector, restart Codex.
+If your client uses `$` for skill selection, select `codexray` with that selector. Check that `codexray:codexray` appears in the available skills; restart Codex if the installed plugin has not appeared yet.
 
-Open the code project you want to work on and send:
+Verify the plugin installation in your terminal:
+
+```sh
+codex plugin list --marketplace codexray --json
+```
+
+The plugin should be installed and enabled. To check its helper without creating feedback, ask CodeXRay to run its bundled `scripts/append_feedback.py --paths` from the installed skill directory.
+
+## Install directly from GitHub
+
+Once this plugin layout is published to the repository, users can install without a separate checkout:
+
+```sh
+codex plugin marketplace add https://github.com/qiuchenmeng/CodeXRay.git
+codex plugin add codexray@codexray
+```
+
+## Plugin layout
 
 ```text
-$codexray Explain this project's code structure.
-```
-
-### Install manually for all your projects
-
-Use one of the following in a terminal. Both install into your own home directory, so they do not depend on the author's username or checkout location. Git is required.
-
-Windows PowerShell:
-
-```powershell
-New-Item -ItemType Directory -Force "$HOME/.agents/skills" | Out-Null
-git clone https://github.com/qiuchenmeng/CodeXRay.git "$HOME/.agents/skills/codexray"
-```
-
-macOS / Linux / WSL (Bash):
-
-```bash
-mkdir -p "$HOME/.agents/skills"
-git clone https://github.com/qiuchenmeng/CodeXRay.git "$HOME/.agents/skills/codexray"
-```
-
-The resulting layout must include:
-
-```text
-~/.agents/skills/codexray/
+.codex-plugin/plugin.json       Codex plugin manifest
+.claude-plugin/plugin.json      Claude-compatible plugin manifest
+.claude-plugin/marketplace.json Marketplace entry
+skills/codexray/
   SKILL.md
   scripts/append_feedback.py
   references/derive-preferences.md
 ```
 
-If the destination already exists, inspect that installation instead of cloning over it. If you use WSL or a remote environment, install in the environment where Codex runs.
+The manifests point to the same skill resources. For standalone skill installation, use the `skills/codexray` folder, not the repository root.
 
-### Install for one project instead
-
-From the root of the code project you want to use with CodeXRay, run:
-
-```bash
-git clone https://github.com/qiuchenmeng/CodeXRay.git .agents/skills/codexray
-```
-
-Then open that project in Codex and invoke the installed skill. The skill directory belongs inside the target code project; a sibling checkout is not a project installation.
-
-## Invocation and verification
-
-- In Codex CLI / IDE, use `/skills` or type `$` to select the installed `codexray` skill, then submit your coding question. These are chat inputs, not shell commands.
-- In ChatGPT, type `@` and select an installed skill. Writing `@codexray` as plain text does not install a local Git checkout into ChatGPT. Follow that host's installation flow first.
-- If the selector does not show `codexray`, check the installation path and restart Codex. A response that merely repeats the skill's name is not verification that the host discovered it.
-- After the skill appears in the selector, a minimal smoke check is to ask it to run its `scripts/append_feedback.py --paths` helper. This reports storage paths without creating feedback files. Python 3 must be available.
-
-Feedback is stored separately from the installation, in `~/.codexray` by default or in `CODEXRAY_HOME` when configured. CodeXRay learns from explicit feedback and synthesizes a personalized prompt when requested; a code question alone does not create feedback.
-
-See [OpenAI Docs: Build skills](https://learn.chatgpt.com/docs/build-skills) for discovery paths and invocation rules. For distribution through the shared plugin directory, package the skill as a plugin using the official plugin workflow; cloning this repository is a local installation option.
+Feedback lives in `~/.codexray`, or in `CODEXRAY_HOME` when set. Installing or updating the plugin does not replace that private state. CodeXRay records explicit feedback; ordinary coding questions do not become preference records. Ask it to synthesize a personalized prompt when you want to update your coding guidance.

@@ -1,0 +1,11 @@
+{
+  "name": "codexray",
+  "version": "0.1.0",
+  "description": "Learn reusable coding preferences from explicit feedback on code explanations, implementation, debugging, and reviews.",
+  "skills": "./skills/",
+  "keywords": ["coding", "feedback", "personalization"],
+  "interface": {
+    "displayName": "CodeXRay",
+    "shortDescription": "Learn from your coding feedback"
+  }
+}
